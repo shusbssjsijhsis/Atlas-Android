@@ -1,9 +1,10 @@
 plugins {
   alias(libs.plugins.android.application)
   alias(libs.plugins.kotlin.android)
-  // Required for Kotlin 2.0+ when Compose is enabled
   id("org.jetbrains.kotlin.plugin.compose")
 }
+
+import java.util.Properties
 
 android {
   namespace = "com.atlas.android"
@@ -24,8 +25,35 @@ android {
   kotlinOptions { jvmTarget = "17" }
 
   buildFeatures { compose = true }
-  // With Kotlin 2.0 + compose plugin, you should NOT pin kotlinCompilerExtensionVersion here.
-  // Compose compiler version is managed by the plugin.
+
+  // ---- Signing (for Release) ----
+  val props = Properties()
+  val propsFile = rootProject.file("keystore.properties")
+  if (propsFile.exists()) {
+    propsFile.inputStream().use { props.load(it) }
+  }
+
+  signingConfigs {
+    create("release") {
+      val ksFile = props.getProperty("storeFile") ?: ""
+      if (ksFile.isNotBlank()) {
+        storeFile = file(ksFile)
+        storePassword = props.getProperty("storePassword")
+        keyAlias = props.getProperty("keyAlias")
+        keyPassword = props.getProperty("keyPassword")
+      }
+    }
+  }
+
+  buildTypes {
+    getByName("debug") {
+      isMinifyEnabled = false
+    }
+    getByName("release") {
+      isMinifyEnabled = false
+      signingConfig = signingConfigs.getByName("release")
+    }
+  }
 }
 
 dependencies {
