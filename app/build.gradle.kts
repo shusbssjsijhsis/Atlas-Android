@@ -1,4 +1,6 @@
-plugins {alias(libs.plugins.android.application)
+plugins {
+  id("org.jetbrains.kotlin.plugin.compose")
+alias(libs.plugins.android.application)
   alias(libs.plugins.kotlin.android)
   alias(libs.plugins.compose.plugin)
 }
