@@ -13,53 +13,42 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.viewmodel.compose.viewModel
 import com.atlas.android.model.TodoItem
 import com.atlas.android.viewmodel.TodoViewModel
 
 @Composable
 fun TodoScreen(
-    viewModel: TodoViewModel = viewModel()
+    viewModel: TodoViewModel
 ) {
     val todoList by viewModel.uiState.collectAsState()
     var inputText by remember { mutableStateOf("") }
 
-    Column(
-        modifier = Modifier.fillMaxSize().padding(16.dp)
-    ) {
+    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Text(
-            text = "Atlas Todo (MVVM)",
+            text = "Atlas Todo (Room DB)",
             style = MaterialTheme.typography.headlineMedium,
             color = MaterialTheme.colorScheme.primary
         )
-        
         Spacer(modifier = Modifier.height(16.dp))
-
         Row(verticalAlignment = Alignment.CenterVertically) {
             OutlinedTextField(
                 value = inputText,
                 onValueChange = { inputText = it },
-                label = { Text("What needs to be done?") },
+                label = { Text("New Task") },
                 modifier = Modifier.weight(1f)
             )
             Spacer(modifier = Modifier.width(8.dp))
-            Button(
-                onClick = {
-                    viewModel.addTodo(inputText)
-                    inputText = ""
-                }
-            ) {
-                Text("Add")
-            }
+            Button(onClick = {
+                viewModel.addTodo(inputText)
+                inputText = ""
+            }) { Text("Add") }
         }
-
         Spacer(modifier = Modifier.height(16.dp))
-
         LazyColumn {
             items(items = todoList, key = { it.id }) { item ->
                 TodoItemRow(
                     item = item,
-                    onToggle = { viewModel.toggleTodo(item.id) },
+                    onToggle = { viewModel.toggleTodoItem(item) },
                     onDelete = { viewModel.removeTodo(item.id) }
                 )
                 HorizontalDivider(color = Color.LightGray.copy(alpha = 0.5f))

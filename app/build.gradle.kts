@@ -1,4 +1,5 @@
 plugins {
+  kotlin("kapt")
   alias(libs.plugins.android.application)
   alias(libs.plugins.kotlin.android)
   id("org.jetbrains.kotlin.plugin.compose")
@@ -64,4 +65,10 @@ dependencies {
   implementation(libs.compose.material3)
   implementation(libs.compose.ui.tooling.preview)
   debugImplementation(libs.compose.ui.tooling)
+}
+
+dependencies {
+    implementation(libs.androidx.room.runtime)
+    implementation(libs.androidx.room.ktx)
+    kapt(libs.androidx.room.compiler)
 }

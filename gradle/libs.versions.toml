@@ -20,3 +20,13 @@ compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview"
 compose-material3 = { module = "androidx.compose.material3:material3" }
 
 # Compose compiler plugin (required for Kotlin 2.0+)
+
+[versions.room]
+room = "2.6.1"
+
+[libraries.androidx-room-runtime]
+module = "androidx.room:room-runtime", version.ref = "room.room"
+[libraries.androidx-room-ktx]
+module = "androidx.room:room-ktx", version.ref = "room.room"
+[libraries.androidx-room-compiler]
+module = "androidx.room:room-compiler", version.ref = "room.room"
