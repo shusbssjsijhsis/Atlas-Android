@@ -31,8 +31,12 @@ jobs:
       - name: Build Debug APK
         run: ./gradlew --no-daemon :app:assembleDebug
 
+      - name: Verify APK output
+        run: ls -la app/build/outputs/apk/debug
+
       - name: Create GitHub Release and upload APK
         uses: softprops/action-gh-release@v2
         with:
-          files: app/build/outputs/apk/debug/*.apk
+          files: |
+            app/build/outputs/apk/debug/*.apk
           generate_release_notes: true
