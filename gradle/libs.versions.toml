@@ -15,3 +15,6 @@ compose-ui = { module = "androidx.compose.ui:ui" }
 compose-ui-tooling = { module = "androidx.compose.ui:ui-tooling" }
 compose-ui-tooling-preview = { module = "androidx.compose.ui:ui-tooling-preview" }
 compose-material3 = { module = "androidx.compose.material3:material3" }
+
+# Compose compiler plugin (required for Kotlin 2.0+)
+compose-plugin = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
